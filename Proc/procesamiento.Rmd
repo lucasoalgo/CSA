@@ -1,0 +1,64 @@
+---
+title: "procesamiento"
+author: "Lucas Arteaga, Ignacio Martínez, Camila Flores, Ricardo Luna, Nicolás Solís"
+date: "29-10-2021"
+output: html_document
+---
+
+```{r}
+#---- 1. Librerías ----
+pacman::p_load(tidyverse, dplyr)
+
+#---- 2.  Datos ----
+#Valores sin notificación científica
+options(scipen = 999) 
+
+#Cargar datos
+simce <- haven::read_dta(file = "../Input/datos/simce2m2018_rbd_publica_final.dta")
+idps <- haven::read_dta(file = "../Input/datos/idps_2m2018.dta")
+
+#Unir bases en función del establecimiento
+datos <- merge(simce, idps, by = "rbd", all.x = T)
+
+#Verificación y exploración inicial de la base de datos
+View(datos) #Verificar si los datos fueron correctamente cargados
+dim(datos) #Dimensión de la base de datos
+
+
+#---- 3. Selección de variables a utilizar ----
+
+datos <- datos %>% select(prom_lect2m_rbd, prom_nat2m_rbd, prom_mate2m_rbd, cod_grupo.x, ind_am_rbd, ind_hv_rbd)
+
+#Revisión de las variables seleccionadas
+names(datos)
+View(datos)
+summary(datos)
+
+
+#---- 4. Procesamiento de variables ----
+
+#Casos perdidos
+datos <- na.omit(datos)
+dim(datos)
+
+#Promedio de los puntajes de las tres pruebas: Lectura, Ciencias naturales y Matemáticas
+prom_lect2m_rbd <- datos$prom_lect2m_rbd
+prom_nat2m_rbd <- datos$prom_nat2m_rbd 
+prom_mate2m_rbd <- datos$prom_mate2m_rbd
+datos$promedio_puntajes <- (prom_lect2m_rbd + prom_nat2m_rbd + prom_mate2m_rbd)/3
+dim(datos)
+
+#Renombre de variables
+datos <- rename(datos, "grupo_socioeconomico" = cod_grupo.x,
+                "autoestima" = ind_am_rbd, "habitos_vs" = ind_hv_rbd)
+
+#Nueva selección de variables dejando únicamente el promedio de puntajes como variable dependiente
+datos <- datos %>% select(promedio_puntajes, grupo_socioeconomico, autoestima, habitos_vs)
+
+
+#---- 5. Guardar datos preparados ----
+
+save(datos, file = "../Input/datos/base_procesada.RData")
+
+```
+

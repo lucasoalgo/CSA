@@ -1,0 +1,129 @@
+---
+title: "analisis"
+author: "Lucas Arteaga"
+date: "29-10-2021"
+output: html_document
+---
+```{r}
+#---- 1. Librerías ----
+
+pacman::p_load(dplyr, webshot, ggpubr, gridExtra, sjPlot, sjlabelled, summarytools)
+
+#---- 2. Datos ----
+
+load(file = "../Input/datos/base_procesada.RData")
+
+
+#---- 3. Descripción de variables ----
+
+#Tabla de estadísticos descriptivos
+dfSummary(datos, headings = FALSE, method = "render")
+
+view(dfSummary(datos, headings = FALSE, method = "render"), file = "../Output/tablas/tabla1.html")
+
+#guardar con webshot también
+webshot::webshot("../Output/tablas/tabla1.html","../Output/tablas/tabla1.png", vwidth = 550, vheight = 220)
+
+
+#---- 4. Relaciones entre variables 
+
+#Gráfico 1: Grupo socioeconómico (x) y promedio de puntajes (y)
+g_gs <- plot_grpfrq(datos$promedio_puntajes, datos$grupo_socioeconomico, type = "box") +
+  set_theme(axis.angle.x = 45,
+            title.size = 1,
+            axis.textsize = 0.85,
+            base = theme_light()) +
+  labs(title = "Puntajes según Grupo 
+       socioeconómico")
+
+#Grafico 2: Autoestima académica (x) y promedio de puntajes (y)
+g_aa <- ggscatter(datos, x = "autoestima", y = "promedio_puntajes",
+                    shape = 21, size = 3,
+                    add = "reg.line",
+                    cor.coef = TRUE)
+
+#Grafico 3: Hábitos de vida saludable (x) y promedio de puntajes (y)
+g_hvs <- ggscatter(datos, x = "habitos_vs", y = "promedio_puntajes",
+                  shape = 21, size = 3,
+                  add = "reg.line",
+                  cor.coef = TRUE)
+
+#Unir gráficos
+g_3 <- grid.arrange(g_gs, g_aa, g_hvs, nrow = 1)
+
+#Guardar gráficos
+ggsave("../Output/graficos/grafico_variables.png", g_3)
+
+#Tabla de correlaciones
+sjPlot::tab_corr(datos, triangle = "lower", file = "../Output/tablas/cor.html")
+
+#Guardar tabla de correlaciones
+webshot("../Output/tablas/cor.html","../Output/tablas/cor.png", vwidth = 550, vheight = 220)
+#Nota: No importa si la librería PhantomJs arroja errores ya que se guardó la tabla como html
+
+#---- 5. Regresión múltiple ----
+
+###Cambio de la estructura de grupo_socioeconomico (numeric a factor)
+###para una disposición correcta en la tabla de regresión múltiple
+
+#Conocer estructura de la variable grupo_socioeconomico (ordinal)
+class(datos$grupo_socioeconomico)
+
+#Conversión de variable a tipo factor
+datos$grupo_socioeconomico <- as_factor(datos$grupo_socioeconomico)
+
+#Etiquetado de variable grupo_socioeconomico
+datos$grupo_socioeconomico <- set_labels(datos$grupo_socioeconomico,
+                                         labels=c( "Bajo" = 1,
+                                                   "Medio bajo" = 2,
+                                                   "Medio" = 3,
+                                                   "Medio alto" = 4,
+                                                   "Alto" = 5))
+
+#Revisar etiquetado en la estructura de variable grupo_socioeconomico
+str(datos$grupo_socioeconomico)
+
+###Modelo de regresión múltiple
+
+#Modelo 1 con dos variables predictoras
+rm1 <- lm(promedio_puntajes ~ autoestima + habitos_vs, data = datos)
+
+#Modelo 2 con variables predictoras y de control
+rm2 <- lm(promedio_puntajes ~ autoestima + habitos_vs + grupo_socioeconomico, data = datos)
+
+#Tabla de regresión múltiple
+sjPlot::tab_model(list(rm1,rm2),
+                  show.se=TRUE,
+                  show.ci=FALSE,
+                  digits=3,
+                  p.style = "stars",
+                  dv.labels = c("Modelo 1", "Modelo 2"),
+                  string.pred = "Predictores",
+                  string.est = "β",
+                  file = "../Output/graficos/rm.html")
+
+#Guardar tabla de regresión múltiple
+webshot("../Output/graficos/rm.html","../Output/graficos/rm.png",  vwidth = 300, vheight = 250)
+
+
+#---- 6. Intervalos de confianza ----
+
+#Gráfico sobre intervalos de confianza
+#Guardar intervalos de confianza
+sjPlot::plot_model(rm2,ci.lvl = c(0.95), title= "", type =c("est"), vline.color = "grey",line.size = 1) + set_theme( 
+  geom.label.color = "cornsilk4",
+  title.color = "black", 
+  title.size = 0.7, 
+  axis.angle.x = 45, 
+  axis.textcolor = "cornsilk4",
+  axis.textsize = 0.85,
+  axis.title.size = 0.75,
+  base = theme_grey()
+)
+
+save_plot("../Output/graficos/ic.png", width = 13, height = 8)
+
+
+
+```
+
