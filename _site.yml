@@ -7,10 +7,10 @@ navbar:
     href: articulo.html
   right:
   - icon: fa-envelope fa-lg
-    href: lucasarteaga00@gmail.com
+    href: mailto:lucasarteaga00@gmail.com
   - icon: fa-github fa-lg
     href: https://github.com/lucasoalgo/CSA
 output:
   html_document:
-    theme: cerulean # yeti  spacelab simplex sandstone cosmo cerulean paper darkly flatly lumen readable
+    theme: "cerulean" # yeti  spacelab simplex sandstone cosmo cerulean paper darkly flatly lumen readable
     css: 'styles.css'
