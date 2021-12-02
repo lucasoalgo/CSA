@@ -12,5 +12,10 @@ navbar:
     href: https://github.com/lucasoalgo/CSA
 output:
   html_document:
+<<<<<<< HEAD
     theme: "cerulean"  # yeti  spacelab simplex sandstone cosmo cerulean paper darkly flatly lumen readable
     css: 'styles.css'
+=======
+    theme: "cerulean" # yeti  spacelab simplex sandstone cosmo cerulean paper darkly flatly lumen readable
+    css: 'styles.css'
+>>>>>>> cae467e2d5753569e96c61807853732c162a7716
