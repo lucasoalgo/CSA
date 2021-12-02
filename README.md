@@ -1,8 +1,10 @@
 # CSA
-Trabajo CSA
+Este repositorio corresponde al trabajo realizado en el ramo Ciencia Social Abierta, año 2021, dictado por el prof. Juan Carlos Castillo, para la carrera de Sociología en la Universidad de Chile.
 
-Entrega 2 correspondiente al ramo Ciencia Social Abierta 2021, prof. Juan Carlos Castillo.
+Integrantes:Lucas Arteaga, Ignacio Martínez, Camila Flores, Ricardo Luna, Nicolás Solís.
 
-Integrantes:Lucas Arteaga, Camila Flores, Ricardo Luna, Ignacio Martínez, Nicolás Solís
+El trabajo final también está alojado en el siguiente sitio: https://lucasoalgo.github.io/CSA/
 
 Los archivos están organizados según el protocolo Input Procesamiento Output (IPO), para más información visitar https://juancarloscastillo.github.io/ipo 
+
+Consultas adicionales a lucasarteaga00@gmail.com
