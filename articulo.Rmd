@@ -8,6 +8,8 @@ bibliography: Input/bib/citations.bib
 csl: Input/bib/apa.csl
 link-citations: yes
 ---
+<div style="text-align: justify">
+
 ## Resumen
 
 Para el desarrollo de políticas públicas orientadas a mejorar la calidad educativa en Chile, se utilizan herramientas encargadas de medir aspectos como el rendimiento académico de los establecimientos educacionales a lo largo del país. Diversas investigaciones han demostrado la variedad de factores que inciden, ya sea negativa o positivamente, en los resultados obtenidos por los alumnos. Esta investigación tiene como objetivo determinar el efecto que las variables de: Autoestima académica y motivación escolar; Hábitos saludables y; Grupo Socioeconómico al que pertenece el establecimiento, tienen sobre el rendimiento académico. 
@@ -115,3 +117,5 @@ La gran limitación de este estudio es el gran tamaño de su unidad de análisis
 
 
 ## Bibliografía
+
+<div/>
