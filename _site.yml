@@ -1,0 +1,16 @@
+name: "Inicio"
+output_dir: "."
+navbar:
+  title: "Inicio"
+  left:
+  - text: "Artículo"
+    href: articulo.html
+  right:
+  - icon: fa-envelope fa-lg
+    href: mailto:lucasarteaga00@gmail.com
+  - icon: fa-github fa-lg
+    href: https://github.com/lucasoalgo/CSA
+output:
+  html_document:
+    theme: "cerulean"  # yeti  spacelab simplex sandstone cosmo cerulean paper darkly flatly lumen readable
+    css: 'styles.css'
